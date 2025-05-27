@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modulo Interattivo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f2f2f2;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      font-family: Courier, monospace;
+      font-size: 16px;
+      margin-top: 5px;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Modulo Cliente</h2>
+
+    <label for="menu1">Seleziona un'opzione:</label>
+    <select id="menu1">
+      <option value="">-- Seleziona --</option>
+      <option value="SERVIZIO REGOLARE">SERVIZIO REGOLARE</option>
+      <option value="ASSENZA SEGNALATA">ASSENZA SEGNALATA</option>
+      <option value="ACCESSO NEGATO">ACCESSO NEGATO</option>
+    </select>
+
+    <label for="testo1">Testo1 (valore copiato):</label>
+    <input type="text" id="testo1" maxlength="40" readonly>
+  </div>
+
+  <script>
+    const menu = document.getElementById('menu1');
+    const testo1 = document.getElementById('testo1');
+
+    menu.addEventListener('change', () => {
+      const base = menu.value;
+      const maxLength = parseInt(testo1.getAttribute('maxlength'));
+      const padding = Math.max(0, maxLength - base.length);
+      const result = base + '*'.repeat(padding);
+      testo1.value = result;
+    });
+  </script>
+</body>
+</html>
