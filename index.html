@@ -1,3 +1,4 @@
+
 <!DOCTYPE html><html lang="it">
 <head>
   <meta charset="UTF-8">
@@ -30,14 +31,20 @@
       margin-top: 5px;
       box-sizing: border-box;
     }
-    .manual-link {
+    .manual-link, .export-button {
       margin-top: 20px;
       font-size: 16px;
+    }
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
     }
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="container" id="modulo">
     <h2>Modulo Cliente</h2><label for="menu1">Seleziona un'opzione:</label>
 <select id="menu1">
   <option value="">-- Seleziona --</option>
@@ -50,12 +57,16 @@
 <input type="text" id="testo1" maxlength="40" readonly>
 
 <p class="manual-link">
-  📄 <a href="modulotrenitalia-Copia2.pdf" target="_blank">
+  📄 <a href="modulo trenitalia-Copia2.pdf" target="_blank">
     Visualizza il modulo di servizio (PDF)
   </a>
 </p>
 
-  </div>  <script>
+<div class="export-button">
+  📤 <button onclick="generaPDF()">Esporta in PDF</button>
+</div>
+
+  </div>  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>  <script>
     const menu = document.getElementById('menu1');
     const testo1 = document.getElementById('testo1');
 
@@ -66,5 +77,17 @@
       const result = base + '*'.repeat(padding);
       testo1.value = result;
     });
+
+    function generaPDF() {
+      const elemento = document.getElementById("modulo");
+      const opzioni = {
+        margin: 10,
+        filename: 'modulo_compilato.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+      html2pdf().set(opzioni).from(elemento).save();
+    }
   </script></body>
 </html>
