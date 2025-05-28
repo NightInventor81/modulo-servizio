@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="it">
+<!DOCTYPE html>
+<html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,12 +11,18 @@
       background: #f2f2f2;
     }
     .container {
-      max-width: 500px;
+      max-width: 800px;
       margin: auto;
       background: white;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      position: relative;
+    }
+    .modulo-sfondo {
+      width: 100%;
+      display: block;
+      margin-bottom: 20px;
     }
     label {
       display: block;
@@ -44,28 +51,34 @@
 </head>
 <body>
   <div class="container" id="modulo">
-    <h2>Modulo Cliente</h2><label for="menu1">Seleziona un'opzione:</label>
-<select id="menu1">
-  <option value="">-- Seleziona --</option>
-  <option value="SERVIZIO REGOLARE">SERVIZIO REGOLARE</option>
-  <option value="ASSENZA SEGNALATA">ASSENZA SEGNALATA</option>
-  <option value="ACCESSO NEGATO">ACCESSO NEGATO</option>
-</select>
+    <h2>Modulo Cliente</h2>
 
-<label for="testo1">Testo1 (valore copiato):</label>
-<input type="text" id="testo1" maxlength="40" readonly>
+    <img src="modulo_trenitalia_VUOTO.jpg" alt="Modulo Trenitalia" class="modulo-sfondo">
 
-<p class="manual-link">
-  📄 <a href="modulo trenitalia_VUOTO.pdf" target="_blank">
-    Visualizza il manuale di sicurezza (PDF)
-  </a>
-</p>
+    <label for="menu1">Seleziona un'opzione:</label>
+    <select id="menu1">
+      <option value="">-- Seleziona --</option>
+      <option value="SERVIZIO REGOLARE">SERVIZIO REGOLARE</option>
+      <option value="ASSENZA SEGNALATA">ASSENZA SEGNALATA</option>
+      <option value="ACCESSO NEGATO">ACCESSO NEGATO</option>
+    </select>
 
-<div class="export-button">
-  📤 <button onclick="generaPDF()">Esporta in PDF</button>
-</div>
+    <label for="testo1">Testo1 (valore copiato):</label>
+    <input type="text" id="testo1" maxlength="40" readonly>
 
-  </div>  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>  <script>
+    <p class="manual-link">
+      📄 <a href="modulotrenitalia-Copia2.pdf" target="_blank">
+        Visualizza il manuale di sicurezza (PDF)
+      </a>
+    </p>
+
+    <div class="export-button">
+      📤 <button onclick="generaPDF()">Esporta in PDF</button>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <script>
     const menu = document.getElementById('menu1');
     const testo1 = document.getElementById('testo1');
 
@@ -88,5 +101,6 @@
       };
       html2pdf().set(opzioni).from(elemento).save();
     }
-  </script></body>
+  </script>
+</body>
 </html>
