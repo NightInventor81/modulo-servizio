@@ -1,5 +1,4 @@
-<!DOCTYPE html>
-<html lang="it">
+<!DOCTYPE html><html lang="it">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,25 +30,32 @@
       margin-top: 5px;
       box-sizing: border-box;
     }
+    .manual-link {
+      margin-top: 20px;
+      font-size: 16px;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h2>Modulo Cliente</h2>
+    <h2>Modulo Cliente</h2><label for="menu1">Seleziona un'opzione:</label>
+<select id="menu1">
+  <option value="">-- Seleziona --</option>
+  <option value="SERVIZIO REGOLARE">SERVIZIO REGOLARE</option>
+  <option value="ASSENZA SEGNALATA">ASSENZA SEGNALATA</option>
+  <option value="ACCESSO NEGATO">ACCESSO NEGATO</option>
+</select>
 
-    <label for="menu1">Seleziona un'opzione:</label>
-    <select id="menu1">
-      <option value="">-- Seleziona --</option>
-      <option value="SERVIZIO REGOLARE">SERVIZIO REGOLARE</option>
-      <option value="ASSENZA SEGNALATA">ASSENZA SEGNALATA</option>
-      <option value="ACCESSO NEGATO">ACCESSO NEGATO</option>
-    </select>
+<label for="testo1">Testo1 (valore copiato):</label>
+<input type="text" id="testo1" maxlength="40" readonly>
 
-    <label for="testo1">Testo1 (valore copiato):</label>
-    <input type="text" id="testo1" maxlength="40" readonly>
-  </div>
+<p class="manual-link">
+  📄 <a href="modulo trenitalia-Copia2.pdf" target="_blank">
+    Visualizza il manuale di sicurezza (PDF)
+  </a>
+</p>
 
-  <script>
+  </div>  <script>
     const menu = document.getElementById('menu1');
     const testo1 = document.getElementById('testo1');
 
@@ -60,6 +66,5 @@
       const result = base + '*'.repeat(padding);
       testo1.value = result;
     });
-  </script>
-</body>
+  </script></body>
 </html>
