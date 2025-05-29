@@ -11,10 +11,10 @@
       background: #f2f2f2;
     }
     .container {
-      max-width: 800px;
+      max-width: 1080px;
       margin: auto;
       background: white;
-      padding: 20px;
+      padding: 0;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       position: relative;
@@ -27,40 +27,69 @@
       position: absolute;
       font-family: Courier, monospace;
       font-size: 14px;
-      padding: 5px;
+      padding: 2px 4px;
       box-sizing: border-box;
+      border: 1px solid #ccc;
     }
     #operatori {
-      top: 100px;
-      left: 60px;
-      width: 300px;
+      top: 72px;
+      left: 130px;
+      width: 180px;
     }
     #cinofila {
-      top: 100px;
-      left: 380px;
-      width: 100px;
+      top: 72px;
+      left: 830px;
+      width: 60px;
     }
     #giorno {
-      top: 140px;
-      left: 60px;
+      top: 110px;
+      left: 50px;
       width: 150px;
     }
-    .tabella {
-      margin-top: 20px;
-      width: 100%;
-      border-collapse: collapse;
+
+    /* Prima riga - zona tabellare */
+    #ora1 {
+      top: 145px;
+      left: 40px;
+      width: 60px;
     }
-    .tabella th, .tabella td {
-      border: 1px solid #ccc;
-      padding: 5px;
-      text-align: left;
+    #luogo1 {
+      top: 145px;
+      left: 110px;
+      width: 120px;
     }
+    #criticita1 {
+      top: 145px;
+      left: 240px;
+      width: 130px;
+    }
+    #allontanati1 {
+      top: 145px;
+      left: 380px;
+      width: 60px;
+    }
+    #materiali1 {
+      top: 145px;
+      left: 450px;
+      width: 170px;
+    }
+    #varchi1 {
+      top: 145px;
+      left: 630px;
+      width: 140px;
+    }
+    #contatti1 {
+      top: 145px;
+      left: 780px;
+      width: 170px;
+    }
+
     .manual-link, .export-button {
-      margin-top: 20px;
+      margin: 20px;
       font-size: 16px;
     }
     button {
-      margin-top: 10px;
+      margin: 10px;
       padding: 10px 20px;
       font-size: 16px;
       cursor: pointer;
@@ -72,17 +101,18 @@
       .no-print {
         display: none !important;
       }
+      .campo {
+        border: none;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container" id="modulo">
-    <h2>Modulo Cliente</h2>
+    <img src="modulo trenitalia_VUOTO2-Campi_inseriti_1.png" alt="Modulo Trenitalia" class="modulo-sfondo">
 
-    <img src="modulo trenitalia_VUOTO_1.png" alt="Modulo Trenitalia" class="modulo-sfondo">
-
-    <!-- Campi posizionati -->
-    <input type="text" id="operatori" class="campo" placeholder="Operatori (Nome e Cognome)">
+    <!-- Campi intestazione -->
+    <input type="text" id="operatori" class="campo" placeholder="Operatori">
     <select id="cinofila" class="campo">
       <option value="">Cinofila?</option>
       <option value="SI">SI</option>
@@ -90,57 +120,17 @@
     </select>
     <input type="date" id="giorno" class="campo">
 
-    <!-- Tabella manuale -->
-    <table class="tabella" id="tabella-compilabile">
-      <thead>
-        <tr>
-          <th>Ora</th>
-          <th>Luogo</th>
-          <th>Criticità riscontrate</th>
-          <th>N° allontanati</th>
-          <th>Materiali verificati</th>
-          <th>Varchi trovati aperti</th>
-          <th>Contatti con FF.OO.</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-          <td><input type="number"></td>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-        </tr>
-        <tr>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-          <td><input type="number"></td>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-          <td><input type="text"></td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- Prima riga compilabile -->
+    <input type="text" id="ora1" class="campo" placeholder="Ora">
+    <input type="text" id="luogo1" class="campo" placeholder="Luogo">
+    <input type="text" id="criticita1" class="campo" placeholder="Criticità">
+    <input type="number" id="allontanati1" class="campo" placeholder="N°">
+    <input type="text" id="materiali1" class="campo" placeholder="Materiali">
+    <input type="text" id="varchi1" class="campo" placeholder="Varchi">
+    <input type="text" id="contatti1" class="campo" placeholder="Contatti">
 
     <div class="no-print">
-      <button onclick="aggiungiRiga()">➕ Aggiungi riga</button>
-      <button onclick="salvaDati()">💾 Salva dati</button>
-      <button onclick="caricaDati()">📂 Carica dati</button>
-      <button onclick="resetModulo()">🗑️ Reset modulo</button>
-      <button onclick="esportaCSV()">📄 Esporta CSV</button>
-    </div>
-
-    <p class="manual-link">
-      📄 <a href="modulotrenitalia-Copia2.pdf" target="_blank">
-        Visualizza il manuale di sicurezza (PDF)
-      </a>
-    </p>
-
-    <div class="export-button">
-      📤 <button onclick="generaPDF()">Esporta in PDF</button>
+      <button onclick="generaPDF()">📤 Esporta in PDF</button>
     </div>
   </div>
 
@@ -149,88 +139,13 @@
     function generaPDF() {
       const elemento = document.getElementById("modulo");
       const opzioni = {
-        margin: 10,
+        margin: 0,
         filename: 'modulo_compilato.pdf',
-        image: { type: 'jpeg', quality: 0.98 },
+        image: { type: 'jpeg', quality: 1 },
         html2canvas: { scale: 2 },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
       html2pdf().set(opzioni).from(elemento).save();
-    }
-
-    function aggiungiRiga() {
-      const tbody = document.querySelector("#tabella-compilabile tbody");
-      const nuovaRiga = document.createElement("tr");
-      nuovaRiga.innerHTML = `
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="number"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-      `;
-      tbody.appendChild(nuovaRiga);
-    }
-
-    function salvaDati() {
-      const dati = {
-        operatori: document.getElementById("operatori").value,
-        cinofila: document.getElementById("cinofila").value,
-        giorno: document.getElementById("giorno").value,
-        righe: []
-      };
-      const righe = document.querySelectorAll("#tabella-compilabile tbody tr");
-      righe.forEach(r => {
-        const celle = r.querySelectorAll("input");
-        dati.righe.push(Array.from(celle).map(c => c.value));
-      });
-      localStorage.setItem("moduloDati", JSON.stringify(dati));
-      alert("Dati salvati correttamente.");
-    }
-
-    function caricaDati() {
-      const dati = JSON.parse(localStorage.getItem("moduloDati"));
-      if (!dati) return alert("Nessun dato salvato.");
-      document.getElementById("operatori").value = dati.operatori;
-      document.getElementById("cinofila").value = dati.cinofila;
-      document.getElementById("giorno").value = dati.giorno;
-
-      const tbody = document.querySelector("#tabella-compilabile tbody");
-      tbody.innerHTML = "";
-      dati.righe.forEach(riga => {
-        const tr = document.createElement("tr");
-        tr.innerHTML = riga.map(val => `<td><input type='text' value='${val}'></td>`).join("");
-        tbody.appendChild(tr);
-      });
-    }
-
-    function resetModulo() {
-      if (!confirm("Sei sicuro di voler svuotare tutto?")) return;
-      document.getElementById("operatori").value = "";
-      document.getElementById("cinofila").value = "";
-      document.getElementById("giorno").value = "";
-      document.querySelector("#tabella-compilabile tbody").innerHTML = "";
-      aggiungiRiga();
-      aggiungiRiga();
-      localStorage.removeItem("moduloDati");
-    }
-
-    function esportaCSV() {
-      let csv = "Ora,Luogo,Criticita,NAllontanati,Materiali,Varchi,Contatti\n";
-      const righe = document.querySelectorAll("#tabella-compilabile tbody tr");
-      righe.forEach(r => {
-        const valori = Array.from(r.querySelectorAll("input")).map(c => '"' + c.value.replace(/"/g, '""') + '"');
-        csv += valori.join(",") + "\n";
-      });
-      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-      const link = document.createElement("a");
-      link.href = URL.createObjectURL(blob);
-      link.download = "modulo_dati.csv";
-      link.style.display = "none";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
     }
   </script>
 </body>
