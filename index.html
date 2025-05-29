@@ -132,6 +132,8 @@
       <button onclick="generaPDF()">📤 Esporta in PDF</button>
     </div>
   </div>
+  <button onclick="toggleRilevamento()">🎯 Rileva coordinate</button>
+
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
@@ -147,5 +149,28 @@
       html2pdf().set(opzioni).from(elemento).save();
     }
   </script>
+  <div id="coordBox" style="display:none; position:absolute; background:rgba(255,255,255,0.9); border:1px solid #333; padding:4px 8px; font-family:monospace; font-size:14px; z-index:1000;"></div>
+let rilevaAttivo = false;
+
+function toggleRilevamento() {
+  rilevaAttivo = !rilevaAttivo;
+  const box = document.getElementById("coordBox");
+  box.style.display = "none";
+  alert(rilevaAttivo ? "🔵 Modalità rilevamento coordinate ATTIVA\nClicca sul modulo per leggere le posizioni." : "⚪ Modalità disattivata");
+}
+
+document.getElementById("modulo").addEventListener("click", function (event) {
+  if (!rilevaAttivo) return;
+
+  const moduloRect = this.getBoundingClientRect();
+  const x = Math.round(event.clientX - moduloRect.left);
+  const y = Math.round(event.clientY - moduloRect.top);
+
+  const box = document.getElementById("coordBox");
+  box.textContent = `left: ${x}px, top: ${y}px`;
+  box.style.left = x + "px";
+  box.style.top = y + "px";
+  box.style.display = "block";
+});
 </body>
 </html>
