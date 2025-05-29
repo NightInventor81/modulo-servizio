@@ -1,0 +1,36 @@
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from pdfrw import PdfReader, PdfWriter, PageMerge
+
+# 1) Genera un PDF “vuoto” con lo sfondo
+bg_pdf = 'modulo-bg.pdf'
+c = canvas.Canvas(bg_pdf, pagesize=A4)
+c.drawImage('modulo.png', 0, 0, width=A4[0], height=A4[1])
+c.save()
+
+# 2) Crea un PDF di overlay con campi
+overlay = 'overlay.pdf'
+c = canvas.Canvas(overlay, pagesize=A4)
+# esempio: campo “nome” in alto a sinistra (misura in punti)
+c.acroForm.textfield(
+    name='nome',
+    tooltip='Il tuo nome',
+    x=50, y=750,
+    width=200, height=20,
+    borderStyle='underlined'
+)
+c.acroForm.textfield(
+    name='data',
+    tooltip='Data',
+    x=50, y=720,
+    width=100, height=20
+)
+c.save()
+
+# 3) Unisci sfondo + overlay
+bg = PdfReader(bg_pdf)
+ov = PdfReader(overlay)
+page = bg.pages[0]
+merger = PageMerge(page)
+merger.add(ov.pages[0]).render()
+PdfWriter('modulo-compilabile.pdf', trailer=bg).write()
