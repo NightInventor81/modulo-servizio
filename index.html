@@ -22,20 +22,38 @@
     .modulo-sfondo {
       width: 100%;
       display: block;
-      margin-bottom: 20px;
     }
-    label {
-      display: block;
-      margin-top: 15px;
-      font-weight: bold;
-    }
-    select, input[type="text"] {
-      width: 100%;
-      padding: 10px;
+    .campo {
+      position: absolute;
       font-family: Courier, monospace;
-      font-size: 16px;
-      margin-top: 5px;
+      font-size: 14px;
+      padding: 5px;
       box-sizing: border-box;
+    }
+    #operatori {
+      top: 100px;
+      left: 60px;
+      width: 300px;
+    }
+    #cinofila {
+      top: 100px;
+      left: 380px;
+      width: 100px;
+    }
+    #giorno {
+      top: 140px;
+      left: 60px;
+      width: 150px;
+    }
+    .tabella {
+      margin-top: 20px;
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .tabella th, .tabella td {
+      border: 1px solid #ccc;
+      padding: 5px;
+      text-align: left;
     }
     .manual-link, .export-button {
       margin-top: 20px;
@@ -47,27 +65,76 @@
       font-size: 16px;
       cursor: pointer;
     }
+    .no-print {
+      display: block;
+    }
+    @media print {
+      .no-print {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container" id="modulo">
     <h2>Modulo Cliente</h2>
 
-    <img src="modulo trenitalia_VUOTO.jpg" alt="Modulo Trenitalia" class="modulo-sfondo">
+    <img src="modulo trenitalia_VUOTO_1.png" alt="Modulo Trenitalia" class="modulo-sfondo">
 
-    <label for="menu1">Seleziona un'opzione:</label>
-    <select id="menu1">
-      <option value="">-- Seleziona --</option>
-      <option value="SERVIZIO REGOLARE">SERVIZIO REGOLARE</option>
-      <option value="ASSENZA SEGNALATA">ASSENZA SEGNALATA</option>
-      <option value="ACCESSO NEGATO">ACCESSO NEGATO</option>
+    <!-- Campi posizionati -->
+    <input type="text" id="operatori" class="campo" placeholder="Operatori (Nome e Cognome)">
+    <select id="cinofila" class="campo">
+      <option value="">Cinofila?</option>
+      <option value="SI">SI</option>
+      <option value="NO">NO</option>
     </select>
+    <input type="date" id="giorno" class="campo">
 
-    <label for="testo1">Testo1 (valore copiato):</label>
-    <input type="text" id="testo1" maxlength="40" readonly>
+    <!-- Tabella manuale -->
+    <table class="tabella" id="tabella-compilabile">
+      <thead>
+        <tr>
+          <th>Ora</th>
+          <th>Luogo</th>
+          <th>Criticità riscontrate</th>
+          <th>N° allontanati</th>
+          <th>Materiali verificati</th>
+          <th>Varchi trovati aperti</th>
+          <th>Contatti con FF.OO.</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="number"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+        </tr>
+        <tr>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="number"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+          <td><input type="text"></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="no-print">
+      <button onclick="aggiungiRiga()">➕ Aggiungi riga</button>
+      <button onclick="salvaDati()">💾 Salva dati</button>
+      <button onclick="caricaDati()">📂 Carica dati</button>
+      <button onclick="resetModulo()">🗑️ Reset modulo</button>
+      <button onclick="esportaCSV()">📄 Esporta CSV</button>
+    </div>
 
     <p class="manual-link">
-      📄 <a href="modulo trenitalia_VUOTO.pdf" target="_blank">
+      📄 <a href="modulotrenitalia-Copia2.pdf" target="_blank">
         Visualizza il manuale di sicurezza (PDF)
       </a>
     </p>
@@ -79,17 +146,6 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
-    const menu = document.getElementById('menu1');
-    const testo1 = document.getElementById('testo1');
-
-    menu.addEventListener('change', () => {
-      const base = menu.value;
-      const maxLength = parseInt(testo1.getAttribute('maxlength'));
-      const padding = Math.max(0, maxLength - base.length);
-      const result = base + '*'.repeat(padding);
-      testo1.value = result;
-    });
-
     function generaPDF() {
       const elemento = document.getElementById("modulo");
       const opzioni = {
@@ -100,6 +156,81 @@
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
       html2pdf().set(opzioni).from(elemento).save();
+    }
+
+    function aggiungiRiga() {
+      const tbody = document.querySelector("#tabella-compilabile tbody");
+      const nuovaRiga = document.createElement("tr");
+      nuovaRiga.innerHTML = `
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="number"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+        <td><input type="text"></td>
+      `;
+      tbody.appendChild(nuovaRiga);
+    }
+
+    function salvaDati() {
+      const dati = {
+        operatori: document.getElementById("operatori").value,
+        cinofila: document.getElementById("cinofila").value,
+        giorno: document.getElementById("giorno").value,
+        righe: []
+      };
+      const righe = document.querySelectorAll("#tabella-compilabile tbody tr");
+      righe.forEach(r => {
+        const celle = r.querySelectorAll("input");
+        dati.righe.push(Array.from(celle).map(c => c.value));
+      });
+      localStorage.setItem("moduloDati", JSON.stringify(dati));
+      alert("Dati salvati correttamente.");
+    }
+
+    function caricaDati() {
+      const dati = JSON.parse(localStorage.getItem("moduloDati"));
+      if (!dati) return alert("Nessun dato salvato.");
+      document.getElementById("operatori").value = dati.operatori;
+      document.getElementById("cinofila").value = dati.cinofila;
+      document.getElementById("giorno").value = dati.giorno;
+
+      const tbody = document.querySelector("#tabella-compilabile tbody");
+      tbody.innerHTML = "";
+      dati.righe.forEach(riga => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = riga.map(val => `<td><input type='text' value='${val}'></td>`).join("");
+        tbody.appendChild(tr);
+      });
+    }
+
+    function resetModulo() {
+      if (!confirm("Sei sicuro di voler svuotare tutto?")) return;
+      document.getElementById("operatori").value = "";
+      document.getElementById("cinofila").value = "";
+      document.getElementById("giorno").value = "";
+      document.querySelector("#tabella-compilabile tbody").innerHTML = "";
+      aggiungiRiga();
+      aggiungiRiga();
+      localStorage.removeItem("moduloDati");
+    }
+
+    function esportaCSV() {
+      let csv = "Ora,Luogo,Criticita,NAllontanati,Materiali,Varchi,Contatti\n";
+      const righe = document.querySelectorAll("#tabella-compilabile tbody tr");
+      righe.forEach(r => {
+        const valori = Array.from(r.querySelectorAll("input")).map(c => '"' + c.value.replace(/"/g, '""') + '"');
+        csv += valori.join(",") + "\n";
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      link.href = URL.createObjectURL(blob);
+      link.download = "modulo_dati.csv";
+      link.style.display = "none";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
     }
   </script>
 </body>
